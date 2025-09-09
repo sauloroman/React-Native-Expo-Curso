@@ -7,13 +7,22 @@ import { useCalculator } from '@/hooks/useCalculator'
 
 const CalculatorApp = () => {
 
-  const { formula, buildNumber, clean, toggleSign } = useCalculator()
+  const { 
+    formula, prevNumber, 
+    buildNumber, clean, toggleSign, deleteLast, 
+    divideOperation, multiplyOperation, addOperation, subtractOperation, calculateResult
+  } = useCalculator()
 
   return (
     <View style={globalStyles.calculatorContainer}>
       <View style={{ paddingHorizontal: 30, paddingBottom: 20 }}>
         <ThemeText variant='h1'>{formula}</ThemeText>
-        <ThemeText variant='h2'>25000</ThemeText>
+        
+        {
+          formula === prevNumber
+          ? (<ThemeText variant='h2'> </ThemeText>)
+          : (<ThemeText variant='h2'>{prevNumber}</ThemeText>)
+        }
       </View>
 
       {/* Filas de botones */}
@@ -29,10 +38,10 @@ const CalculatorApp = () => {
         <CalculatorButton 
           blackText
           color={Colors.lightGray} 
-          onPress={() => buildNumber('del')} label='del' />
+          onPress={deleteLast} label='del' />
         <CalculatorButton 
           color={Colors.orange}
-          onPress={() => console.log('/')} 
+          onPress={divideOperation} 
           label='/' 
         />
       </View>
@@ -46,7 +55,7 @@ const CalculatorApp = () => {
           onPress={() => buildNumber('9')} label='9' />
         <CalculatorButton 
           color={Colors.orange}
-          onPress={() => console.log('X')} 
+          onPress={multiplyOperation} 
           label='X' 
         />
       </View>
@@ -60,7 +69,7 @@ const CalculatorApp = () => {
           onPress={() => buildNumber('6')} label='6' />
         <CalculatorButton 
           color={Colors.orange}
-          onPress={() => console.log('-')} 
+          onPress={subtractOperation} 
           label='-' 
         />
       </View>
@@ -74,7 +83,7 @@ const CalculatorApp = () => {
           onPress={() => buildNumber('3')} label='3' />
         <CalculatorButton 
           color={Colors.orange}
-          onPress={() => console.log('+')} 
+          onPress={addOperation} 
           label='+' 
         />
       </View>
@@ -86,7 +95,7 @@ const CalculatorApp = () => {
         <CalculatorButton 
           onPress={() => buildNumber('.')} label='.' />
         <CalculatorButton 
-          onPress={() => console.log('=')} label='=' />
+          onPress={calculateResult} label='=' />
       </View>
 
     </View>
