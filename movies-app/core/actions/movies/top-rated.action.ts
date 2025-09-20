@@ -3,9 +3,19 @@ import { Movie } from "@/infrastructure/interfaces/movie.interface"
 import { MoviesDBMoviesResponse } from "@/infrastructure/interfaces/moviedb-response"
 import { MovieMapper } from "@/infrastructure/mappers/movie.mapper"
 
-export const topRatedAction = async (): Promise<Movie[]> => {
+interface Options {
+    page?: number,
+    limit?: number,
+}
+
+export const topRatedAction = async ({ limit = 10, page = 1 }: Options): Promise<Movie[]> => {
     try {
-        const { data } = await movieApi.get<MoviesDBMoviesResponse>('/top_rated')
+        const { data } = await movieApi.get<MoviesDBMoviesResponse>('/top_rated', {
+            params: {
+                page,
+                limit
+            }
+        })
         const movies = data.results.map( MovieMapper.fromTheMovieDBToMovie )
         return movies
     } catch(error) {
