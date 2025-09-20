@@ -2,13 +2,14 @@ import { View, Text, ActivityIndicator, ScrollView } from 'react-native'
 import React from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import { useMovie } from '@/presentation/hooks/useMovie'
-import MovieHeader from '@/presentation/components/movies/MovieHeader'
-import MovieDescription from '@/presentation/components/movies/MovieDescription'
+import MovieHeader from '@/presentation/components/movie/MovieHeader'
+import MovieDescription from '@/presentation/components/movie/MovieDescription'
+import MovieCast from '@/presentation/components/movie/MovieCast'
 
 const MovieScreen = () => {
 
   const { id } = useLocalSearchParams()
-  const { movieQuery } = useMovie(+id)
+  const { movieQuery, castQuery } = useMovie(+id)
 
   if ( movieQuery.isLoading || !movieQuery.data ) {
     return (
@@ -29,6 +30,10 @@ const MovieScreen = () => {
 
       <MovieDescription 
         movie={movieQuery.data}
+      />
+
+      <MovieCast 
+        cast={ castQuery.data ?? [] }
       />
     </ScrollView>
   )
